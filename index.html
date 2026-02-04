@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoVision - Spatial Mapping & Hazard Monitoring Platform</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-box" id="searchInput" placeholder="Search locations, infrastructure, hazards...">
+        </div>
+        <div class="logo" onclick="resetView()">GEOVISION</div>
+        <div class="header-controls">
+            <button class="btn" onclick="toggle3D()">3D View Toggle</button>
+            <button class="btn" onclick="toggleHazards()">Hazard Overlays</button>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Map Area -->
+        <div class="map-container">
+            <div class="map-view" id="mapView">
+                <div class="buildings-3d">
+                    <div class="building" style="left: 0px;"></div>
+                    <div class="building" style="left: 80px; height: 120px;"></div>
+                    <div class="building" style="left: 160px; height: 90px;"></div>
+                </div>
+            </div>
+            
+            <div class="map-controls">
+                <div class="hazard-toggle">
+                    <input type="checkbox" id="hazardToggle" checked>
+                    <label for="hazardToggle"><strong>Enable Hazard Overlays</strong></label>
+                </div>
+                <div class="hazard-indicators">
+                    <div class="indicator">
+                        <div class="indicator-dot dangerous"></div>
+                        <span>Dangerous - High Risk</span>
+                    </div>
+                    <div class="indicator">
+                        <div class="indicator-dot moderate"></div>
+                        <span>Moderate - Needs Monitoring</span>
+                    </div>
+                    <div class="indicator">
+                        <div class="indicator-dot good"></div>
+                        <span>Good - Low Risk</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="right-panel">
+            <!-- Upper Panel - Location Data -->
+            <div class="location-panel">
+                <div class="panel-header">
+                    <div class="panel-title">Camarines Norte</div>
+                    <button class="close-btn" onclick="closePanel()">×</button>
+                </div>
+
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">Population</div>
+                        <div class="metric-value">~620,000</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Hazard Level</div>
+                        <div class="metric-value" style="color: #f59e0b;">Moderate-High</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Infrastructure Status</div>
+                        <div class="metric-value" style="color: #ef4444;">40% Clogged</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Flood Risk Increase</div>
+                        <div class="metric-value" style="color: #ef4444;">+65%</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">Flood Frequency Trend (2020-2025)</div>
+                    <div class="simple-chart"></div>
+                </div>
+
+                <div class="geological-data">
+                    <h3 style="font-size: 1rem; margin-bottom: 1rem; color: #1e3a8a;">PHIVOLCS Geological Data</h3>
+                    
+                    <div class="geo-section">
+                        <div class="geo-title">🌋 Active Volcanoes</div>
+                        <div class="geo-item">• Mount Mayon: 120 km northeast</div>
+                        <div class="geo-item">• Last active: 2023</div>
+                        <div class="geo-item">• Risk level: Moderate</div>
+                    </div>
+
+                    <div class="geo-section">
+                        <div class="geo-title">🌍 Recent Earthquakes</div>
+                        <div class="geo-item">• M5.2 - 85 km west</div>
+                        <div class="geo-item">• Depth: 15 km</div>
+                        <div class="geo-item">• Shaking arrival: ~1 minute</div>
+                    </div>
+
+                    <div class="geo-section">
+                        <div class="geo-title">⚠️ Fault Lines</div>
+                        <div class="geo-item">• Philippine Fault Zone: 45 km east</div>
+                        <div class="geo-item">• Ground rupture risk: Low to Moderate</div>
+                    </div>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Problem</th>
+                            <th>Solution</th>
+                            <th>Budget (₱M)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Clogged drainage</td>
+                            <td>Install larger pipes & permeable pavements</td>
+                            <td>280</td>
+                        </tr>
+                        <tr>
+                            <td>Unstable slopes</td>
+                            <td>Retaining walls & re-vegetation</td>
+                            <td>120</td>
+                        </tr>
+                        <tr>
+                            <td>Limited evacuation routes</td>
+                            <td>2 new paved routes to high ground</td>
+                            <td>95</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Lower Panel - AI Chat -->
+            <div class="chat-panel">
+                <div class="chat-header">AI VISION</div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="greeting">
+                        <strong>Hi, I am AI VISION.</strong><br>
+                        What would you like to know?
+                    </div>
+                </div>
+                <div class="chat-input-container">
+                    <button class="upload-btn" onclick="uploadImage()">📎</button>
+                    <input type="text" class="chat-input" id="chatInput" placeholder="Ask about hazards, population, solutions...">
+                    <button class="send-btn" onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert (Hidden by default) -->
+    <div class="alert" id="alert" style="display: none;">
+        <div class="alert-title">🚨 Flood Warning</div>
+        <div class="alert-text">
+            Barangay San Vicente may experience 0.8m water levels by 8 PM.<br>
+            <strong>Action:</strong> Move to second floors or evacuation center at Barangay Hall.
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
